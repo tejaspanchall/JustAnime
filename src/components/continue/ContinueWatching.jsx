@@ -9,6 +9,7 @@ import { FaHistory, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import getSafeTitle from "@/src/utils/getSafetitle";
 
 const ContinueWatching = () => {
   const [watchList, setWatchList] = useState([]);
@@ -92,9 +93,9 @@ const ContinueWatching = () => {
                 >
                   <img
                     src={`${item?.poster}`}
-                    alt={item?.title}
+                    alt={getSafeTitle(item?.title, language, item?.japanese_title)}
                     className="block w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105 group-hover:blur-sm"
-                    title={item?.title}
+                    title={getSafeTitle(item?.title, language, item?.japanese_title)}
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -113,9 +114,7 @@ const ContinueWatching = () => {
                 )}
                 <div className="absolute bottom-0 left-0 right-0 p-3 pb-2 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
                   <p className="text-white text-[15px] font-bold text-left truncate mb-1.5 max-[450px]:text-sm drop-shadow-lg">
-                    {language === "EN"
-                      ? item?.title
-                      : item?.japanese_title}
+                    {getSafeTitle(item?.title, language, item?.japanese_title)}
                   </p>
                   <p className="text-gray-200 text-[13px] font-semibold text-left max-[450px]:text-[12px] drop-shadow-md">
                     Episode {item.episodeNum}

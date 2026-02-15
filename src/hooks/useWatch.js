@@ -119,7 +119,7 @@ export const useWatch = (animeId, initialEpisodeId) => {
       try {
         const data = await getServers(animeId, episodeId);
         console.log(data);
-        
+
         const filteredServers = data?.filter(
           (server) =>
             server.serverName === "HD-1" ||
@@ -148,6 +148,7 @@ export const useWatch = (animeId, initialEpisodeId) => {
           filteredServers.find(s => s.serverName === savedServerName && s.type === savedServerType) ||
           filteredServers.find(s => s.serverName === savedServerName) ||
           filteredServers.find(s => s.type === savedServerType && ["HD-1", "HD-2", "HD-3", "HD-4"].includes(s.serverName)) ||
+          filteredServers.find(s => s.serverName === "HD-2") ||
           filteredServers[0];
 
         setServers(filteredServers);
@@ -175,8 +176,8 @@ export const useWatch = (animeId, initialEpisodeId) => {
     )
       return;
     if (
-      (activeServerName?.toLowerCase() === "hd-1" || activeServerName?.toLowerCase() === "hd-4") 
-        &&
+      (activeServerName?.toLowerCase() === "hd-1" || activeServerName?.toLowerCase() === "hd-4")
+      &&
       !serverLoading
     ) {
       setBuffering(false);
@@ -191,7 +192,7 @@ export const useWatch = (animeId, initialEpisodeId) => {
           const data = await getStreamInfo(
             animeId,
             episodeId,
-            server.serverName.toLowerCase()==="hd-3"?"hd-1":server.serverName.toLowerCase(),
+            server.serverName.toLowerCase() === "hd-3" ? "hd-1" : server.serverName.toLowerCase(),
             server.type.toLowerCase()
           );
           setStreamInfo(data);

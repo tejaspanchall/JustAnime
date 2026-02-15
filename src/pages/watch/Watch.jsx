@@ -20,6 +20,7 @@ import SidecardLoader from "@/src/components/Loader/Sidecard.loader";
 import Watchcontrols from "@/src/components/watchcontrols/Watchcontrols";
 import useWatchControl from "@/src/hooks/useWatchControl";
 import Player from "@/src/components/player/Player";
+import getSafeTitle from "@/src/utils/getSafetitle";
 
 export default function Watch() {
   const location = useLocation();
@@ -76,12 +77,12 @@ export default function Watch() {
 
   useEffect(() => {
     if (!episodes || episodes.length === 0) return;
-    
+
     const isValidEpisode = episodes.some(ep => {
       const epNumber = ep.id.split('ep=')[1];
-      return epNumber === episodeId; 
+      return epNumber === episodeId;
     });
-    
+
     // If missing or invalid episodeId, fallback to first
     if (!episodeId || !isValidEpisode) {
       const fallbackId = episodes[0].id.match(/ep=(\d+)/)?.[1];
@@ -90,7 +91,7 @@ export default function Watch() {
       }
       return;
     }
-  
+
     const newUrl = `/watch/${animeId}?ep=${episodeId}`;
     if (isFirstSet.current) {
       navigate(newUrl, { replace: true });
@@ -98,19 +99,23 @@ export default function Watch() {
     } else {
       navigate(newUrl);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [episodeId, animeId, navigate, episodes]);
 
+
+
+  // ... inside Watch component ...
   // Update document title
   useEffect(() => {
     if (animeInfo) {
-      document.title = `Watch ${animeInfo.title} English Sub/Dub online Free on ${website_name}`;
+      const safeTitle = getSafeTitle(animeInfo.title, language, animeInfo.japanese_title);
+      document.title = `Watch ${safeTitle} English Sub/Dub online Free on ${website_name}`;
     }
     return () => {
       document.title = `${website_name} | Free anime streaming platform`;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animeId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animeId, animeInfo, language]);
 
   // Redirect if no episodes
   useEffect(() => {
@@ -128,7 +133,7 @@ export default function Watch() {
           const videoHeight = videoContainerRef.current.offsetHeight;
           const controlsHeight = controlsRef.current.offsetHeight;
           const totalHeight = videoHeight + controlsHeight;
-          
+
           // Apply the combined height to episodes container
           episodesRef.current.style.height = `${totalHeight}px`;
         }
@@ -143,15 +148,15 @@ export default function Watch() {
     const initialTimer = setTimeout(() => {
       adjustHeight();
     }, 500);
-    
+
     // Set up resize listener
     window.addEventListener('resize', adjustHeight);
-    
+
     // Create MutationObserver to monitor player changes
     const observer = new MutationObserver(() => {
       setTimeout(adjustHeight, 100);
     });
-    
+
     // Start observing both video container and controls
     if (videoContainerRef.current) {
       observer.observe(videoContainerRef.current, {
@@ -160,7 +165,7 @@ export default function Watch() {
         subtree: true
       });
     }
-    
+
     if (controlsRef.current) {
       observer.observe(controlsRef.current, {
         attributes: true,
@@ -168,10 +173,10 @@ export default function Watch() {
         subtree: true
       });
     }
-    
+
     // Set up additional interval for continuous adjustments
     const intervalId = setInterval(adjustHeight, 1000);
-    
+
     // Clean up
     return () => {
       clearTimeout(initialTimer);
@@ -184,9 +189,8 @@ export default function Watch() {
   function Tag({ bgColor, index, icon, text }) {
     return (
       <div
-        className={`flex space-x-1 justify-center items-center px-[4px] py-[1px] text-black font-semibold text-[13px] ${
-          index === 0 ? "rounded-l-[4px]" : "rounded-none"
-        }`}
+        className={`flex space-x-1 justify-center items-center px-[4px] py-[1px] text-black font-semibold text-[13px] ${index === 0 ? "rounded-l-[4px]" : "rounded-none"
+          }`}
         style={{ backgroundColor: bgColor }}
       >
         {icon && <FontAwesomeIcon icon={icon} className="text-[12px]" />}
@@ -361,42 +365,38 @@ export default function Watch() {
                     <Link
                       to={`/${season.id}`}
                       key={index}
-                      className={`relative w-full aspect-[3/1] rounded-lg overflow-hidden cursor-pointer group ${
-                        animeId === String(season.id)
-                          ? "ring-2 ring-white/40 shadow-lg shadow-white/10"
-                          : ""
-                      }`}
+                      className={`relative w-full aspect-[3/1] rounded-lg overflow-hidden cursor-pointer group ${animeId === String(season.id)
+                        ? "ring-2 ring-white/40 shadow-lg shadow-white/10"
+                        : ""
+                        }`}
                     >
                       <img
                         src={season.season_poster}
                         alt={season.season}
-                        className={`w-full h-full object-cover scale-150 ${
-                          animeId === String(season.id)
-                            ? "opacity-50"
-                            : "opacity-40 group-hover:opacity-50 transition-opacity"
-                        }`}
+                        className={`w-full h-full object-cover scale-150 ${animeId === String(season.id)
+                          ? "opacity-50"
+                          : "opacity-40 group-hover:opacity-50 transition-opacity"
+                          }`}
                       />
                       {/* Dots Pattern Overlay */}
-                      <div 
-                        className="absolute inset-0 z-10" 
-                        style={{ 
+                      <div
+                        className="absolute inset-0 z-10"
+                        style={{
                           backgroundImage: `url('data:image/svg+xml,<svg width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="1.5" cy="1.5" r="0.5" fill="white" fill-opacity="0.25"/></svg>')`,
                           backgroundSize: '3px 3px'
                         }}
                       />
                       {/* Dark Gradient Overlay */}
-                      <div className={`absolute inset-0 z-20 bg-gradient-to-r ${
-                        animeId === String(season.id)
-                          ? "from-black/50 to-transparent"
-                          : "from-black/40 to-transparent"
-                      }`} />
+                      <div className={`absolute inset-0 z-20 bg-gradient-to-r ${animeId === String(season.id)
+                        ? "from-black/50 to-transparent"
+                        : "from-black/40 to-transparent"
+                        }`} />
                       {/* Title Container */}
                       <div className="absolute inset-0 z-30 flex items-center justify-center">
-                        <p className={`text-[14px] font-bold text-center px-2 transition-colors duration-300 ${
-                          animeId === String(season.id)
-                            ? "text-white"
-                            : "text-white/90 group-hover:text-white"
-                        }`}>
+                        <p className={`text-[14px] font-bold text-center px-2 transition-colors duration-300 ${animeId === String(season.id)
+                          ? "text-white"
+                          : "text-white/90 group-hover:text-white"
+                          }`}>
                           {season.season}
                         </p>
                       </div>
@@ -438,12 +438,12 @@ export default function Watch() {
                 )}
                 <div className="flex flex-col gap-y-4 flex-1 max-[600px]:gap-y-2">
                   {animeInfo && animeInfo?.title ? (
-                    <Link 
+                    <Link
                       to={`/${animeId}`}
                       className="group"
                     >
                       <h1 className="text-[28px] font-medium text-white leading-tight group-hover:text-gray-300 transition-colors max-[600px]:text-[20px]">
-                        {language ? animeInfo?.title : animeInfo?.japanese_title}
+                        {getSafeTitle(animeInfo.title, language, animeInfo.japanese_title)}
                       </h1>
                       <div className="flex items-center gap-1.5 mt-1 text-gray-400 text-sm group-hover:text-white transition-colors max-[600px]:text-[12px] max-[600px]:mt-0.5">
                         <span>View Details</span>
@@ -502,42 +502,38 @@ export default function Watch() {
                     <Link
                       to={`/${season.id}`}
                       key={index}
-                      className={`relative w-full aspect-[3/1] rounded-lg overflow-hidden cursor-pointer group ${
-                        animeId === String(season.id)
-                          ? "ring-2 ring-white/40 shadow-lg shadow-white/10"
-                          : ""
-                      }`}
+                      className={`relative w-full aspect-[3/1] rounded-lg overflow-hidden cursor-pointer group ${animeId === String(season.id)
+                        ? "ring-2 ring-white/40 shadow-lg shadow-white/10"
+                        : ""
+                        }`}
                     >
                       <img
                         src={season.season_poster}
                         alt={season.season}
-                        className={`w-full h-full object-cover scale-150 ${
-                          animeId === String(season.id)
-                            ? "opacity-50"
-                            : "opacity-40 group-hover:opacity-50 transition-opacity"
-                        }`}
+                        className={`w-full h-full object-cover scale-150 ${animeId === String(season.id)
+                          ? "opacity-50"
+                          : "opacity-40 group-hover:opacity-50 transition-opacity"
+                          }`}
                       />
                       {/* Dots Pattern Overlay */}
-                      <div 
-                        className="absolute inset-0 z-10" 
-                        style={{ 
+                      <div
+                        className="absolute inset-0 z-10"
+                        style={{
                           backgroundImage: `url('data:image/svg+xml,<svg width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="1.5" cy="1.5" r="0.5" fill="white" fill-opacity="0.25"/></svg>')`,
                           backgroundSize: '3px 3px'
                         }}
                       />
                       {/* Dark Gradient Overlay */}
-                      <div className={`absolute inset-0 z-20 bg-gradient-to-r ${
-                        animeId === String(season.id)
-                          ? "from-black/50 to-transparent"
-                          : "from-black/40 to-transparent"
-                      }`} />
+                      <div className={`absolute inset-0 z-20 bg-gradient-to-r ${animeId === String(season.id)
+                        ? "from-black/50 to-transparent"
+                        : "from-black/40 to-transparent"
+                        }`} />
                       {/* Title Container */}
                       <div className="absolute inset-0 z-30 flex items-center justify-center">
-                        <p className={`text-[14px] sm:text-[16px] font-bold text-center px-2 sm:px-4 transition-colors duration-300 ${
-                          animeId === String(season.id)
-                            ? "text-white"
-                            : "text-white/90 group-hover:text-white"
-                        }`}>
+                        <p className={`text-[14px] sm:text-[16px] font-bold text-center px-2 sm:px-4 transition-colors duration-300 ${animeId === String(season.id)
+                          ? "text-white"
+                          : "text-white/90 group-hover:text-white"
+                          }`}>
                           {season.season}
                         </p>
                       </div>

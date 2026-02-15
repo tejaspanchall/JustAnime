@@ -6,9 +6,10 @@ import {
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { FaChevronRight } from "react-icons/fa";
-import "./CategoryCard.css";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { Link, useNavigate } from "react-router-dom";
+import getSafeTitle from "@/src/utils/getSafetitle";
+import "./CategoryCard.css";
 
 const CategoryCard = React.memo(
   ({
@@ -23,7 +24,7 @@ const CategoryCard = React.memo(
   }) => {
     const { language } = useLanguage();
     const navigate = useNavigate();
-    
+
     if (limit) {
       data = data.slice(0, limit);
     }
@@ -55,7 +56,7 @@ const CategoryCard = React.memo(
         if (
           JSON.stringify(prev.firstRow) !== JSON.stringify(newItems.firstRow) ||
           JSON.stringify(prev.remainingItems) !==
-            JSON.stringify(newItems.remainingItems)
+          JSON.stringify(newItems.remainingItems)
         ) {
           return newItems;
         }
@@ -90,11 +91,10 @@ const CategoryCard = React.memo(
         <>
           {categoryPage && (
             <div
-              className={`grid grid-cols-4 gap-x-3 gap-y-8 transition-all duration-300 ease-in-out ${
-                categoryPage && itemsToRender.firstRow.length > 0
-                  ? "mt-8 max-[758px]:hidden"
-                  : ""
-              }`}
+              className={`grid grid-cols-4 gap-x-3 gap-y-8 transition-all duration-300 ease-in-out ${categoryPage && itemsToRender.firstRow.length > 0
+                ? "mt-8 max-[758px]:hidden"
+                : ""
+                }`}
             >
               {itemsToRender.firstRow.map((item, index) => (
                 <div
@@ -107,17 +107,16 @@ const CategoryCard = React.memo(
                       className="inline-block bg-gray-900 absolute left-0 top-0 w-full h-full group hover:cursor-pointer"
                       onClick={() =>
                         navigate(
-                          `${
-                            path === "top-upcoming"
-                              ? `/${item.id}`
-                              : `/watch/${item.id}`
+                          `${path === "top-upcoming"
+                            ? `/${item.id}`
+                            : `/watch/${item.id}`
                           }`
                         )
                       }
                     >
                       <img
                         src={`${item.poster}`}
-                        alt={item.title}
+                        alt={getSafeTitle(item.title, language, item.japanese_title)}
                         className="block w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105 group-hover:blur-sm"
                       />
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -131,10 +130,10 @@ const CategoryCard = React.memo(
                     </div>
                     {(item.tvInfo?.rating === "18+" ||
                       item?.adultContent === true) && (
-                      <div className="text-white px-2 py-0.5 rounded-lg bg-red-600 absolute top-3 left-3 flex items-center justify-center text-[12px] font-bold">
-                        18+
-                      </div>
-                    )}
+                        <div className="text-white px-2 py-0.5 rounded-lg bg-red-600 absolute top-3 left-3 flex items-center justify-center text-[12px] font-bold">
+                          18+
+                        </div>
+                      )}
                     <div className="absolute bottom-0 left-0 right-0 p-3 pb-2 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
                       <div className="flex items-center justify-start w-full space-x-1.5 z-[100] flex-wrap gap-y-1.5">
                         {item.tvInfo?.sub && (
@@ -177,9 +176,9 @@ const CategoryCard = React.memo(
                         {(item.tvInfo?.duration || item.duration) && (
                           <div className="bg-[#2a2a2a] text-white rounded-[2px] px-2 py-1 text-[11px] font-medium">
                             {item.tvInfo?.duration === "m" ||
-                            item.tvInfo?.duration === "?" ||
-                            item.duration === "m" ||
-                            item.duration === "?"
+                              item.tvInfo?.duration === "?" ||
+                              item.duration === "m" ||
+                              item.duration === "?"
                               ? "N/A"
                               : item.tvInfo?.duration || item.duration || "N/A"}
                           </div>
@@ -191,7 +190,7 @@ const CategoryCard = React.memo(
                     to={`/${item.id}`}
                     className="text-white font-semibold mt-3 item-title hover:text-white hover:cursor-pointer line-clamp-1"
                   >
-                    {language === "EN" ? item.title : item.japanese_title}
+                    {getSafeTitle(item.title, language, item.japanese_title)}
                   </Link>
                   {item.description && (
                     <div className="line-clamp-3 text-[13px] font-light text-gray-400 mt-3 max-[1200px]:hidden">
@@ -214,17 +213,16 @@ const CategoryCard = React.memo(
                     className="inline-block bg-gray-900 absolute left-0 top-0 w-full h-full group hover:cursor-pointer"
                     onClick={() =>
                       navigate(
-                        `${
-                          path === "top-upcoming"
-                            ? `/${item.id}`
-                            : `/watch/${item.id}`
+                        `${path === "top-upcoming"
+                          ? `/${item.id}`
+                          : `/watch/${item.id}`
                         }`
                       )
                     }
                   >
                     <img
                       src={`${item.poster}`}
-                      alt={item.title}
+                      alt={getSafeTitle(item.title, language, item.japanese_title)}
                       className="block w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105 group-hover:blur-sm"
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -238,10 +236,10 @@ const CategoryCard = React.memo(
                   </div>
                   {(item.tvInfo?.rating === "18+" ||
                     item?.adultContent === true) && (
-                    <div className="text-white px-2 py-0.5 rounded-lg bg-red-600 absolute top-3 left-3 flex items-center justify-center text-[12px] font-bold">
-                      18+
-                    </div>
-                  )}
+                      <div className="text-white px-2 py-0.5 rounded-lg bg-red-600 absolute top-3 left-3 flex items-center justify-center text-[12px] font-bold">
+                        18+
+                      </div>
+                    )}
                   <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
                     <div className="flex items-center justify-start w-full space-x-1 max-[478px]:space-x-0.5 z-[100] flex-wrap gap-y-1">
                       {item.tvInfo?.sub && (
@@ -284,9 +282,9 @@ const CategoryCard = React.memo(
                       {(item.tvInfo?.duration || item.duration) && (
                         <div className="bg-[#2a2a2a] text-white rounded-[2px] px-1.5 py-0.5 text-[10px] font-medium max-[478px]:py-0.5 max-[478px]:px-1 max-[478px]:hidden">
                           {item.tvInfo?.duration === "m" ||
-                          item.tvInfo?.duration === "?" ||
-                          item.duration === "m" ||
-                          item.duration === "?"
+                            item.tvInfo?.duration === "?" ||
+                            item.duration === "m" ||
+                            item.duration === "?"
                             ? "N/A"
                             : item.tvInfo?.duration || item.duration || "N/A"}
                         </div>
@@ -298,7 +296,7 @@ const CategoryCard = React.memo(
                   to={`/${item.id}`}
                   className="text-white font-semibold mt-3 item-title hover:text-white hover:cursor-pointer line-clamp-1"
                 >
-                  {language === "EN" ? item.title : item.japanese_title}
+                  {getSafeTitle(item.title, language, item.japanese_title)}
                 </Link>
               </div>
             ))}

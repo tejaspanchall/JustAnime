@@ -59,11 +59,13 @@ export default function Player({
   animeInfo,
   episodeNum,
   streamInfo,
+  serverName,
 }) {
   const artRef = useRef(null);
-  const leftAtRef = useRef(0); 
+  const leftAtRef = useRef(0);
   const proxy = import.meta.env.VITE_PROXY_URL;
   const m3u8proxy = import.meta.env.VITE_M3U8_PROXY_URL?.split(",") || [];
+  const m3u8proxyHD3 = import.meta.env.VITE_M3U8_PROXY_HD3;
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(
     episodes?.findIndex(
       (episode) => episode.id.match(/ep=(\d+)/)?.[1] === episodeId
@@ -117,11 +119,11 @@ export default function Player({
         const currentTime = Math.round(video.currentTime);
         const duration = Math.round(video.duration);
         if (duration > 0 && currentTime >= duration) {
-            art.pause();
-            if (currentEpisodeIndex < episodes?.length - 1 && autoNext) {
-              playNext(
-                episodes[currentEpisodeIndex + 1].id.match(/ep=(\d+)/)?.[1]
-              );
+          art.pause();
+          if (currentEpisodeIndex < episodes?.length - 1 && autoNext) {
+            playNext(
+              episodes[currentEpisodeIndex + 1].id.match(/ep=(\d+)/)?.[1]
+            );
           }
         }
       });
@@ -131,11 +133,11 @@ export default function Player({
         const currentTime = Math.round(video.currentTime);
         const duration = Math.round(video.duration);
         if (duration > 0 && currentTime >= duration) {
-            art.pause();
-            if (currentEpisodeIndex < episodes?.length - 1 && autoNext) {
-              playNext(
-                episodes[currentEpisodeIndex + 1].id.match(/ep=(\d+)/)?.[1]
-              );
+          art.pause();
+          if (currentEpisodeIndex < episodes?.length - 1 && autoNext) {
+            playNext(
+              episodes[currentEpisodeIndex + 1].id.match(/ep=(\d+)/)?.[1]
+            );
           }
         }
       });
@@ -211,18 +213,21 @@ export default function Player({
     if (!streamUrl || !artRef.current) return;
     const iframeUrl = streamInfo?.streamingLink?.iframe;
     const headers = {};
-    headers.referer=new URL(iframeUrl).origin+"/";
-    console.log(m3u8proxy[Math.floor(Math.random() * m3u8proxy?.length)] +
-        encodeURIComponent(streamUrl) +
-         "&headers=" +
-         encodeURIComponent(JSON.stringify(headers)));
+    headers.referer = new URL(iframeUrl).origin + "/";
+    const finalProxy = (serverName === "hd-3" && m3u8proxyHD3)
+      ? m3u8proxyHD3
+      : m3u8proxy[Math.floor(Math.random() * m3u8proxy?.length)];
+    console.log(finalProxy +
+      encodeURIComponent(streamUrl) +
+      "&headers=" +
+      encodeURIComponent(JSON.stringify(headers)));
 
     const art = new Artplayer({
       url:
-        m3u8proxy[Math.floor(Math.random() * m3u8proxy?.length)] +
+        finalProxy +
         encodeURIComponent(streamUrl) +
-         "&headers=" +
-         encodeURIComponent(JSON.stringify(headers)),
+        "&headers=" +
+        encodeURIComponent(JSON.stringify(headers)),
       container: artRef.current,
       type: "m3u8",
       autoplay: autoPlay,

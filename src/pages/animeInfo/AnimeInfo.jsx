@@ -15,6 +15,7 @@ import Error from "@/src/components/error/Error";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { useHomeInfo } from "@/src/context/HomeInfoContext";
 import Voiceactor from "@/src/components/voiceactor/Voiceactor";
+import getSafeTitle from "@/src/utils/getSafetitle";
 
 function InfoItem({ label, value, isProducer = true }) {
   return (
@@ -111,12 +112,13 @@ function AnimeInfo({ random = false }) {
   }, [id, random]);
   useEffect(() => {
     if (animeInfo && location.pathname === `/${animeInfo.id}`) {
-      document.title = `Watch ${animeInfo.title} English Sub/Dub online Free on ${website_name}`;
+      const safeTitle = getSafeTitle(animeInfo.title, language, animeInfo.japanese_title);
+      document.title = `Watch ${safeTitle} English Sub/Dub online Free on ${website_name}`;
     }
     return () => {
       document.title = `${website_name} | Free anime streaming platform`;
     };
-  }, [animeInfo]);
+  }, [animeInfo, language]);
   if (loading) return <Loader type="animeInfo" />;
   if (error) {
     return <Error />;
@@ -126,6 +128,8 @@ function AnimeInfo({ random = false }) {
     return undefined;
   }
   const { title, japanese_title, poster, animeInfo: info } = animeInfo;
+  const safeTitle = getSafeTitle(title, language, japanese_title);
+
   const tags = [
     {
       condition: info.tvInfo?.rating,
@@ -165,7 +169,7 @@ function AnimeInfo({ random = false }) {
                 <div className="relative w-[130px] xs:w-[150px] aspect-[2/3] rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <img
                     src={`${poster}`}
-                    alt={`${title} Poster`}
+                    alt={`${safeTitle} Poster`}
                     className="w-full h-full object-cover"
                   />
                   {animeInfo.adultContent && (
@@ -181,7 +185,7 @@ function AnimeInfo({ random = false }) {
                 {/* Title */}
                 <div className="space-y-0.5">
                   <h1 className="text-lg xs:text-xl font-bold tracking-tight truncate">
-                    {language === "EN" ? title : japanese_title}
+                    {safeTitle}
                   </h1>
                   {language === "EN" && japanese_title && (
                     <p className="text-white/50 text-[11px] xs:text-xs truncate">JP Title: {japanese_title}</p>
@@ -310,7 +314,7 @@ function AnimeInfo({ random = false }) {
                 <div className="relative w-[220px] lg:w-[260px] aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <img
                     src={`${poster}`}
-                    alt={`${title} Poster`}
+                    alt={`${safeTitle} Poster`}
                     className="w-full h-full object-cover"
                   />
                   {animeInfo.adultContent && (
@@ -326,7 +330,7 @@ function AnimeInfo({ random = false }) {
                 {/* Title */}
                 <div className="space-y-1">
                   <h1 className="text-3xl lg:text-4xl font-bold tracking-tight truncate">
-                    {language === "EN" ? title : japanese_title}
+                    {safeTitle}
                   </h1>
                   {language === "EN" && japanese_title && (
                     <p className="text-white/50 text-sm lg:text-base truncate">JP Title: {japanese_title}</p>
@@ -454,42 +458,38 @@ function AnimeInfo({ random = false }) {
               <Link
                 to={`/${season.id}`}
                 key={index}
-                className={`relative w-full aspect-[3/1] sm:aspect-[3/1] rounded-lg overflow-hidden cursor-pointer group ${
-                  currentId === String(season.id)
+                className={`relative w-full aspect-[3/1] sm:aspect-[3/1] rounded-lg overflow-hidden cursor-pointer group ${currentId === String(season.id)
                     ? "ring-2 ring-white/40 shadow-lg shadow-white/10"
                     : ""
-                }`}
+                  }`}
               >
                 <img
                   src={season.season_poster}
                   alt={season.season}
-                  className={`w-full h-full object-cover scale-150 ${
-                    currentId === String(season.id)
+                  className={`w-full h-full object-cover scale-150 ${currentId === String(season.id)
                       ? "opacity-50"
                       : "opacity-40"
-                  }`}
+                    }`}
                 />
                 {/* Dots Pattern Overlay */}
-                <div 
-                  className="absolute inset-0 z-10" 
-                  style={{ 
+                <div
+                  className="absolute inset-0 z-10"
+                  style={{
                     backgroundImage: `url('data:image/svg+xml,<svg width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="1.5" cy="1.5" r="0.5" fill="white" fill-opacity="0.25"/></svg>')`,
                     backgroundSize: '3px 3px'
                   }}
                 />
                 {/* Dark Gradient Overlay */}
-                <div className={`absolute inset-0 z-20 bg-gradient-to-r ${
-                  currentId === String(season.id)
+                <div className={`absolute inset-0 z-20 bg-gradient-to-r ${currentId === String(season.id)
                     ? "from-black/50 to-transparent"
                     : "from-black/40 to-transparent"
-                }`} />
+                  }`} />
                 {/* Title Container */}
                 <div className="absolute inset-0 z-30 flex items-center justify-center">
-                  <p className={`text-[14px] sm:text-[16px] md:text-[18px] font-bold text-center px-2 sm:px-4 transition-colors duration-300 ${
-                    currentId === String(season.id)
+                  <p className={`text-[14px] sm:text-[16px] md:text-[18px] font-bold text-center px-2 sm:px-4 transition-colors duration-300 ${currentId === String(season.id)
                       ? "text-white"
                       : "text-white/90 group-hover:text-white"
-                  }`}>
+                    }`}>
                     {season.season}
                   </p>
                 </div>

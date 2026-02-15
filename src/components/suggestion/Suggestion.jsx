@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import BouncingLoader from "../ui/bouncingloader/Bouncingloader";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import getSafeTitle from "@/src/utils/getSafetitle";
+import { useLanguage } from "@/src/context/LanguageContext";
 
 function Suggestion({ keyword, className, onSuggestionClick }) {
+  const { language } = useLanguage();
   const [suggestion, setSuggestion] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,10 +34,9 @@ function Suggestion({ keyword, className, onSuggestionClick }) {
 
   return (
     <div
-      className={`bg-zinc-900 ${className} flex ${
-        loading ? "justify-center py-4" : "justify-start"
-      } ${!suggestion ? "p-2" : "justify-start"} items-center rounded-lg`}
-      style={{ 
+      className={`bg-zinc-900 ${className} flex ${loading ? "justify-center py-4" : "justify-start"
+        } ${!suggestion ? "p-2" : "justify-start"} items-center rounded-lg`}
+      style={{
         boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
         border: "1px solid rgba(255, 255, 255, 0.05)"
       }}
@@ -61,20 +63,15 @@ function Suggestion({ keyword, className, onSuggestionClick }) {
               <img
                 src={`${item.poster}`}
                 className="w-[45px] h-[65px] flex-shrink-0 object-cover rounded-md shadow-lg"
-                alt=""
+                alt={getSafeTitle(item.title, language, item.japanese_title)}
                 onError={(e) => {
                   e.target.src = "https://i.postimg.cc/HnHKvHpz/no-avatar.jpg";
                 }}
               />
               <div className="flex flex-col gap-y-[2px]">
-                {item?.title && (
+                {(item?.title || item?.japanese_title) && (
                   <h1 className="line-clamp-1 leading-5 font-semibold text-[14px] text-gray-100 group-hover:text-white">
-                    {item.title || "N/A"}
-                  </h1>
-                )}
-                {item?.japanese_title && (
-                  <h1 className="line-clamp-1 leading-4 text-[12px] font-normal text-gray-400">
-                    {item.japanese_title || "N/A"}
+                    {getSafeTitle(item.title, language, item.japanese_title)}
                   </h1>
                 )}
                 {(item?.releaseDate || item?.showType || item?.duration) && (

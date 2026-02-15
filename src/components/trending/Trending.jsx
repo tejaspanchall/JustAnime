@@ -6,6 +6,7 @@ import {
   faMicrophone,
   faFire
 } from "@fortawesome/free-solid-svg-icons";
+import getSafeTitle from "@/src/utils/getSafetitle";
 
 const Trending = ({ trending, className }) => {
   const { language } = useLanguage();
@@ -29,7 +30,7 @@ const Trending = ({ trending, className }) => {
                   <div className="relative">
                     <img
                       src={item.poster}
-                      alt={item.title}
+                      alt={getSafeTitle(item.title, language, item.japanese_title)}
                       className="w-[50px] h-[70px] rounded object-cover"
                     />
                     <div className="absolute top-0 left-0 bg-white/90 text-black text-xs font-bold px-1.5 rounded-br">
@@ -38,7 +39,7 @@ const Trending = ({ trending, className }) => {
                   </div>
                   <div className="flex flex-col gap-1.5 flex-1 min-w-0">
                     <span className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors line-clamp-2">
-                      {language === "EN" ? item.title : item.japanese_title}
+                      {getSafeTitle(item.title, language, item.japanese_title)}
                     </span>
                     <div className="flex flex-wrap items-center gap-2">
                       {item.tvInfo?.sub && (

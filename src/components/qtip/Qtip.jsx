@@ -9,8 +9,11 @@ import {
   faMicrophone,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import getSafeTitle from "@/src/utils/getSafetitle";
+import { useLanguage } from "@/src/context/LanguageContext";
 
 function Qtip({ id }) {
+  const { language } = useLanguage();
   const [qtip, setQtip] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,7 +41,7 @@ function Qtip({ id }) {
       ) : (
         <div className="w-full flex flex-col justify-start gap-y-2">
           <h1 className="text-xl font-semibold text-white text-[13px] leading-6">
-            {qtip.title}
+            {getSafeTitle(qtip.title, language, qtip.japaneseTitle)}
           </h1>
           <div className="w-full flex items-center relative mt-2">
             {qtip?.rating && (

@@ -8,6 +8,7 @@ import { useLanguage } from "@/src/context/LanguageContext";
 import { Link, useNavigate } from "react-router-dom";
 import useToolTipPosition from "@/src/hooks/useToolTipPosition";
 import Qtip from "../qtip/Qtip";
+import getSafeTitle from "@/src/utils/getSafetitle";
 
 function Topten({ data, className }) {
   const { language } = useLanguage();
@@ -29,8 +30,8 @@ function Topten({ data, className }) {
     activePeriod === "today"
       ? data.today
       : activePeriod === "week"
-      ? data.week
-      : data.month;
+        ? data.week
+        : data.month;
 
   const { tooltipPosition, tooltipHorizontalPosition, cardRefs } =
     useToolTipPosition(hoveredItem, currentData);
@@ -56,11 +57,10 @@ function Topten({ data, className }) {
           {["today", "week", "month"].map((period) => (
             <li
               key={period}
-              className={`cursor-pointer p-1.5 px-4 transition-all duration-200 ${
-                activePeriod === period
-                  ? "bg-white text-black font-medium"
-                  : "text-gray-400 hover:text-white hover:bg-[#2a2a2a]"
-              }`}
+              className={`cursor-pointer p-1.5 px-4 transition-all duration-200 ${activePeriod === period
+                ? "bg-white text-black font-medium"
+                : "text-gray-400 hover:text-white hover:bg-[#2a2a2a]"
+                }`}
               onClick={() => handlePeriodChange(period)}
             >
               {period.charAt(0).toUpperCase() + period.slice(1)}
@@ -78,11 +78,10 @@ function Topten({ data, className }) {
               ref={(el) => (cardRefs.current[index] = el)}
             >
               <h1
-                className={`font-bold text-2xl transition-colors ${
-                  index < 3
-                    ? "text-white border-b-2 border-white pb-0.5"
-                    : "text-gray-600"
-                } max-[350px]:hidden`}
+                className={`font-bold text-2xl transition-colors ${index < 3
+                  ? "text-white border-b-2 border-white pb-0.5"
+                  : "text-gray-600"
+                  } max-[350px]:hidden`}
               >
                 {`${index + 1 < 10 ? "0" : ""}${index + 1}`}
               </h1>
@@ -97,7 +96,7 @@ function Topten({ data, className }) {
               >
                 <img
                   src={`${item.poster}`}
-                  alt={item.title}
+                  alt={getSafeTitle(item.title, language, item.japanese_title)}
                   className="w-[55px] h-[70px] rounded-lg object-cover flex-shrink-0 cursor-pointer shadow-md transition-transform duration-200 group-hover:scale-[1.02]"
                   onClick={() => navigate(`/watch/${item.id}`)}
                   onMouseEnter={() => handleMouseEnter(item, index)}
@@ -109,17 +108,15 @@ function Topten({ data, className }) {
                   window.innerWidth > 1024 && (
                     <div
                       className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} 
-                      ${
-                        tooltipPosition === "top-1/2"
+                      ${tooltipPosition === "top-1/2"
                           ? "translate-y-[50px]"
                           : "translate-y-[-50px]"
-                      } 
+                        } 
                       z-[100000] transform transition-all duration-300 ease-in-out 
-                      ${
-                        hoveredItem === item.id + index
+                      ${hoveredItem === item.id + index
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-2"
-                      }`}
+                        }`}
                       onMouseEnter={() => {
                         if (hoverTimeout) clearTimeout(hoverTimeout);
                       }}
@@ -135,7 +132,7 @@ function Topten({ data, className }) {
                     className="text-[0.95em] font-medium text-gray-200 hover:text-white transform transition-all ease-out line-clamp-1 max-[478px]:line-clamp-2 max-[478px]:text-[14px]"
                     onClick={() => handleNavigate(item.id)}
                   >
-                    {language === "EN" ? item.title : item.japanese_title}
+                    {getSafeTitle(item.title, language, item.japanese_title)}
                   </Link>
                   <div className="flex flex-wrap items-center w-fit space-x-2 max-[350px]:gap-y-[3px]">
                     {item.tvInfo?.sub && (

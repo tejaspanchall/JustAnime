@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/src/context/LanguageContext";
+import getSafeTitle from "@/src/utils/getSafetitle";
 import "./Banner.css";
 
 function Banner({ item, index }) {
@@ -16,19 +17,19 @@ function Banner({ item, index }) {
     <section className="spotlight w-full h-full relative rounded-2xl overflow-hidden">
       <img
         src={`${item.poster}`}
-        alt={item.title}
+        alt={getSafeTitle(item.title, language, item.japanese_title)}
         className="absolute inset-0 object-cover w-full h-full rounded-2xl"
       />
       <div className="spotlight-overlay absolute inset-0 z-[1] rounded-2xl"></div>
-      
+
       <div className="absolute flex flex-col left-0 bottom-[40px] w-[55%] p-4 z-[2] max-[1390px]:w-[45%] max-[1390px]:bottom-[40px] max-[1300px]:w-[600px] max-[1120px]:w-[60%] max-md:w-[90%] max-md:bottom-[20px] max-[300px]:w-full">
         <p className="text-[#ffbade] font-semibold text-[20px] w-fit max-[1300px]:text-[15px]">
           #{index + 1} Spotlight
         </p>
         <h3 className="text-white line-clamp-2 text-5xl font-bold mt-4 text-left max-[1390px]:text-[45px] max-[1300px]:text-3xl max-[1300px]:mt-3 max-md:text-2xl max-md:mt-1 max-[575px]:text-[22px] max-sm:leading-6 max-sm:w-[80%] max-[320px]:w-full">
-          {language === "EN" ? item.title : item.japanese_title}
+          {getSafeTitle(item.title, language, item.japanese_title)}
         </h3>
-        
+
         {/* Mobile Buttons */}
         <div className="hidden max-md:flex max-md:mt-3 max-md:gap-x-3 max-md:w-full">
           <Link

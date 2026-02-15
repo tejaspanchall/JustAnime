@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: https://zenime.site/sitemap.xml
+Sitemap: https://justanime.fun/sitemap.xml

@@ -16,7 +16,7 @@
 </p>
 </p>
 <p align="center">
-    <a href="https://justanime.fun">JustAnime</a> is an open-source anime streaming service that uses <a href="https://github.com/itzzzme/anime-api">ANIME</a> API, built using ReactJS with javascript and Tailwind CSS. It lets you easily find any anime with intuitive search & suggestion feature and stream without any ads.
+    <a href="https://justanime.to">JustAnime</a> is an open-source anime streaming service that uses <a href="https://github.com/itzzzme/anime-api">ANIME</a> API, built using ReactJS with javascript and Tailwind CSS. It lets you easily find any anime with intuitive search & suggestion feature and stream without any ads.
  </p>
 
 <p align="center">

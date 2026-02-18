@@ -50,7 +50,7 @@ function Topten({ data, className }) {
   };
 
   return (
-    <div className={`flex flex-col space-y-4 ${className}`}>
+    <div className={`flex flex-col space-y-2 ${className}`}>
       <div className="flex justify-between items-center max-[350px]:flex-col max-[350px]:gap-y-2 max-[350px]:items-start">
         <h1 className="font-bold text-2xl text-white tracking-tight">Top 10</h1>
         <ul className="flex justify-between w-fit bg-[#1a1a1a] rounded-lg overflow-hidden shadow-lg">

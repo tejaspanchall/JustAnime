@@ -113,6 +113,7 @@ const CategoryCard = React.memo(
     cardStyle,
     path,
     limit,
+    gridClass,
   }) => {
     const { language } = useLanguage();
     const navigate = useNavigate();
@@ -143,7 +144,7 @@ const CategoryCard = React.memo(
 
     return (
       <div className={`w-full ${className}`}>
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4">
           <h1 className="font-semibold text-2xl text-white max-[478px]:text-[18px] capitalize tracking-wide">
             {label}
           </h1>
@@ -162,7 +163,7 @@ const CategoryCard = React.memo(
         </div>
         <>
           {categoryPage && itemsToRender.firstRow.length > 0 && (
-            <div className="grid grid-cols-4 gap-x-3 gap-y-8 transition-all duration-300 ease-in-out mt-8 max-[758px]:hidden">
+            <div className="grid grid-cols-4 gap-x-3 gap-y-8 transition-all duration-300 ease-in-out mt-2 max-[758px]:hidden">
               {itemsToRender.firstRow.map((item, index) => (
                 <AnimeCard
                   key={index}
@@ -175,7 +176,7 @@ const CategoryCard = React.memo(
               ))}
             </div>
           )}
-          <div className={`grid ${cardStyle || 'grid-cols-5 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3'} gap-x-3 gap-y-8 mt-6 transition-all duration-300 ease-in-out max-[478px]:gap-x-2`}>
+          <div className={`grid ${gridClass || cardStyle || 'grid-cols-5 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3'} gap-x-3 gap-y-8 mt-2 transition-all duration-300 ease-in-out max-[478px]:gap-x-2`}>
             {itemsToRender.remainingItems.map((item, index) => (
               <AnimeCard
                 key={index}

@@ -43,7 +43,7 @@ function Search() {
         setSearchParams({ keyword, page: newPage });
     };
 
-    const searchGridClass = "grid-cols-8 max-[1600px]:grid-cols-6 max-[1200px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3 max-[478px]:gap-x-2";
+    const searchGridClass = "grid-cols-6 max-[1200px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:gap-x-2";
 
     const { title, description, keywords } = generateSearchMeta(keyword);
     const canonicalUrl = generateCanonicalUrl(`/search?keyword=${keyword || ''}${page > 1 ? `&page=${page}` : ''}`);

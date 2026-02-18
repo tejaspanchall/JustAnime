@@ -35,7 +35,7 @@ const ContinueWatching = () => {
 
   return (
     <div className="mt-8">
-      <div className="flex items-center justify-between max-md:pl-4 mb-6">
+      <div className="flex items-center justify-between max-md:pl-4 mb-3">
         <div className="flex items-center gap-x-3 justify-center">
           <FaHistory className="text-gray-200 text-xl" />
           <h1 className="text-gray-200 text-2xl font-bold tracking-tight max-[450px]:text-xl max-[450px]:mb-1 max-[350px]:text-lg">

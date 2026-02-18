@@ -4,7 +4,7 @@ import CategoryCard from "@/src/components/categorycard/CategoryCard.jsx";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 
-function TabbedAnimeSection({ topAiring, mostFavorite, latestCompleted, className = "" }) {
+function TabbedAnimeSection({ topAiring, mostFavorite, latestCompleted, className = "", limit = 10 }) {
   const [activeTab, setActiveTab] = useState("airing");
 
   const tabs = [
@@ -24,7 +24,7 @@ function TabbedAnimeSection({ topAiring, mostFavorite, latestCompleted, classNam
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`relative px-6 py-4 text-[15px] font-medium transition-all duration-300 
-                ${activeTab === tab.id 
+                ${activeTab === tab.id
                   ? "text-white after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary after:rounded-t-full"
                   : "text-[#ffffff80] hover:text-white"
                 }
@@ -55,8 +55,9 @@ function TabbedAnimeSection({ topAiring, mostFavorite, latestCompleted, classNam
       <CategoryCard
         data={activeTabData.data}
         path={activeTabData.path}
-        limit={12}
+        limit={limit}
         showViewMore={false}
+        cardStyle="grid-cols-5 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3"
       />
     </div>
   );

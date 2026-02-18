@@ -14,13 +14,14 @@ import "./Banner.css";
 function Banner({ item, index }) {
   const { language } = useLanguage();
   return (
-    <section className="spotlight w-full h-full relative rounded-2xl overflow-hidden">
+    <section className="spotlight w-full h-full relative rounded-md overflow-hidden">
       <img
         src={`${item.poster}`}
         alt={getSafeTitle(item.title, language, item.japanese_title)}
-        className="absolute inset-0 object-cover w-full h-full rounded-2xl"
+        className="absolute inset-0 object-cover w-full h-full rounded-md"
+        draggable="false"
       />
-      <div className="spotlight-overlay absolute inset-0 z-[1] rounded-2xl"></div>
+      <div className="spotlight-overlay absolute inset-0 z-[1] rounded-md"></div>
 
       <div className="absolute flex flex-col left-0 bottom-[40px] w-[55%] p-4 z-[2] max-[1390px]:w-[45%] max-[1390px]:bottom-[40px] max-[1300px]:w-[600px] max-[1120px]:w-[60%] max-md:w-[90%] max-md:bottom-[20px] max-[300px]:w-full">
         <p className="text-[#ffbade] font-semibold text-[20px] w-fit max-[1300px]:text-[15px]">

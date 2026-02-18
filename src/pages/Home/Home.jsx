@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import website_name from "@/src/config/website.js";
 import Spotlight from "@/src/components/spotlight/Spotlight.jsx";
 import Trending from "@/src/components/trending/Trending.jsx";
@@ -19,6 +20,17 @@ import {
 
 function Home() {
   const { homeInfo, homeInfoLoading, error } = useHomeInfo();
+  const [itemLimit, setItemLimit] = useState(window.innerWidth > 1400 ? 10 : 12);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemLimit(window.innerWidth > 1400 ? 10 : 12);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   if (homeInfoLoading) return <Loader type="home" />;
   if (error) return <Error />;
   if (!homeInfo) return <Error error="404" />;
@@ -63,26 +75,28 @@ function Home() {
         </div>
         <ContinueWatching />
 
-        <div className="w-full grid grid-cols-[minmax(0,75%),minmax(0,25%)] gap-x-6 max-[1200px]:flex flex-col">
+        <div className="w-full grid grid-cols-[minmax(0,75%),minmax(0,25%)] gap-x-4 max-[1200px]:flex flex-col">
           <div>
             <CategoryCard
               label="Latest Episode"
               data={homeInfo.latest_episode}
-              className="mt-[60px]"
+              className="mt-8"
               path="recently-updated"
-              limit={12}
+              limit={itemLimit}
+              cardStyle="grid-cols-5 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3"
             />
             <Schedule className="mt-8" />
             <TabbedAnimeSection
               topAiring={homeInfo.top_airing}
               mostFavorite={homeInfo.most_favorite}
               latestCompleted={homeInfo.latest_completed}
-              className="mt-8"
+              className="mt-4"
+              limit={itemLimit}
             />
           </div>
-          <div className="w-full mt-[60px]">
+          <div className="w-full mt-8">
             <Trending trending={homeInfo.trending} />
-            <Topten data={homeInfo.topten} className="mt-12" />
+            <Topten data={homeInfo.topten} className="mt-8" />
           </div>
         </div>
       </div>

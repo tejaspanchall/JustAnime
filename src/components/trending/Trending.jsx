@@ -12,7 +12,7 @@ const Trending = ({ trending, className }) => {
   const { language } = useLanguage();
 
   return (
-    <div className={`bg-[#141414] rounded-lg p-4 ${className}`}>
+    <div className={`bg-[#141414] rounded-lg py-4 px-1.5 ${className}`}>
       <div className="flex items-center gap-2 mb-4">
         <FontAwesomeIcon icon={faFire} className="text-white/90" />
         <h2 className="text-xl font-semibold text-white">Trending Now</h2>

@@ -201,7 +201,7 @@ const CategoryCard = React.memo(
               ))}
             </div>
           )}
-          <div className={`grid ${cardStyle || 'grid-cols-6 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3'} gap-x-3 gap-y-8 mt-6 transition-all duration-300 ease-in-out max-[478px]:gap-x-2`}>
+          <div className={`grid ${cardStyle || 'grid-cols-5 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-3'} gap-x-3 gap-y-8 mt-6 transition-all duration-300 ease-in-out max-[478px]:gap-x-2`}>
             {itemsToRender.remainingItems.map((item, index) => (
               <div
                 key={index}

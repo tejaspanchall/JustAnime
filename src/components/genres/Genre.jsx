@@ -23,10 +23,10 @@ function Genre({ data }) {
   }, []);
 
   return (
-    <div className="relative pt-[20px] max-sm:pt-[15px]">
+    <div className="relative pt-2 max-sm:pt-[15px]">
       <div className="relative flex items-center min-h-[32px] max-sm:min-h-[28px]">
         {/* Content first for proper stacking */}
-        <div 
+        <div
           ref={scrollContainerRef}
           className="absolute inset-0 overflow-x-auto no-scrollbar scroll-smooth"
           style={{
@@ -51,7 +51,7 @@ function Genre({ data }) {
 
         {/* Left button and gradient */}
         <div className="relative z-20 flex items-center">
-          <button 
+          <button
             onClick={() => scroll('left')}
             className="bg-[#1a1a1a] hover:bg-[#252525] h-8 max-sm:h-7 w-8 max-sm:w-7 flex items-center justify-center rounded-[4px] transition-all duration-300 ease-in-out focus:outline-none active:scale-95"
           >
@@ -68,7 +68,7 @@ function Genre({ data }) {
         {/* Right button and gradient */}
         <div className="relative z-20 flex items-center">
           <div className="h-8 max-sm:h-7 w-20 max-sm:w-12 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent max-sm:from-[#0a0a0a]/60 max-sm:via-[#0a0a0a]/40 pointer-events-none"></div>
-          <button 
+          <button
             onClick={() => scroll('right')}
             className="bg-[#1a1a1a] hover:bg-[#252525] h-8 max-sm:h-7 w-8 max-sm:w-7 flex items-center justify-center rounded-[4px] transition-all duration-300 ease-in-out focus:outline-none active:scale-95"
           >

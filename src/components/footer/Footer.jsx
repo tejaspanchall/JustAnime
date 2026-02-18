@@ -86,7 +86,7 @@ function Footer() {
               hosts and providers. {website_name} is not responsible for any media
               files shown by the video providers.
             </p>
-            <p>© {website_name}. All rights reserved.</p>
+            <p>© 2026 <a href="https://justanime.site" className="hover:text-white/60 underline transition-colors">{website_name}</a>. All rights reserved.</p>
           </div>
         </div>
       </div>

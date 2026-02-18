@@ -17,7 +17,8 @@ const Spotlight = ({ spotlights }) => {
               spaceBetween={0}
               slidesPerView={1}
               loop={true}
-              allowTouchMove={false}
+              allowTouchMove={true}
+              grabCursor={true}
               navigation={{
                 nextEl: ".button-next",
                 prevEl: ".button-prev",
@@ -31,7 +32,7 @@ const Spotlight = ({ spotlights }) => {
                 disableOnInteraction: false,
               }}
               modules={[Navigation, Autoplay, Pagination]}
-              className="h-[450px] max-[1390px]:h-full rounded-2xl overflow-hidden relative"
+              className="h-[450px] max-[1390px]:h-full rounded-md overflow-hidden relative"
               style={{
                 "--swiper-pagination-bullet-inactive-color": "rgba(255, 255, 255, 0.5)",
                 "--swiper-pagination-bullet-inactive-opacity": "1",

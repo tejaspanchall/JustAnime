@@ -196,12 +196,12 @@ function AnimeInfo({ random = false }) {
         </script>
       </Helmet>
       <div className="min-h-screen bg-[#0a0a0a] text-white">
-        <div className="relative w-full overflow-hidden mt-[74px] max-md:mt-[60px]">
+        <div className="relative w-full overflow-hidden mt-[64px] max-md:mt-[50px]">
 
           {/* Main Content */}
-          <div className="relative z-10 container mx-auto py-4 sm:py-6 lg:py-12">
+          <div className="relative z-10 container mx-auto py-4 sm:py-6 lg:py-8">
             {/* Mobile Layout */}
-            <div className="block md:hidden">
+            <div className="block md:hidden pt-4">
               <div className="flex flex-row gap-4">
                 {/* Poster Section */}
                 <div className="flex-shrink-0">
@@ -490,7 +490,7 @@ function AnimeInfo({ random = false }) {
 
         {/* Seasons Section */}
         {seasons?.length > 0 && (
-          <div className="container mx-auto py-8 sm:py-12">
+          <div className="container mx-auto pt-8">
             <h2 className="text-2xl font-bold mb-6 sm:mb-8 px-1">More Seasons</h2>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
               {seasons.map((season, index) => (
@@ -540,19 +540,20 @@ function AnimeInfo({ random = false }) {
 
         {/* Voice Actors Section */}
         {animeInfo?.charactersVoiceActors.length > 0 && (
-          <div className="container mx-auto py-12">
+          <div className="container mx-auto pt-8">
             <Voiceactor animeInfo={animeInfo} />
           </div>
         )}
 
         {/* Recommendations Section */}
         {animeInfo.recommended_data.length > 0 && (
-          <div className="container mx-auto py-12">
+          <div className="container mx-auto pt-8">
             <CategoryCard
               label="Recommended for you"
               data={animeInfo.recommended_data}
               limit={animeInfo.recommended_data.length}
               showViewMore={false}
+              gridClass="grid-cols-6 max-[1200px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:gap-x-2"
             />
           </div>
         )}

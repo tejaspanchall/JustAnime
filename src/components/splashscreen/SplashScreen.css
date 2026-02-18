@@ -19,20 +19,17 @@ html {
 /* Container and background */
 .splash-container {
   min-height: 100vh;
-  width: 100vw;
-  position: fixed;
+  width: 100%;
+  position: relative;
   background: url('/splash.jpg');
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 0 30px;
-  overflow: auto;
   margin: 0;
-  left: 0;
-  top: 0;
 }
 
 @media (max-width: 768px) {
@@ -73,7 +70,8 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 140px;
+  padding-top: 120px;
+  padding-bottom: 50px;
 }
 
 /* Logo */
@@ -82,7 +80,7 @@ html {
 }
 
 .logo {
-  height: 75px;
+  height: 65px;
   width: auto;
 }
 
@@ -96,12 +94,12 @@ html {
 
 .search-input {
   width: 100%;
-  padding: 14px 48px 14px 20px;
+  padding: 12px 42px 12px 18px;
   background: rgba(17, 17, 17, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -136,7 +134,7 @@ html {
 .enter-button {
   background: rgba(255, 255, 255, 0.9);
   color: black;
-  padding: 14px 28px;
+  padding: 12px 24px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 500;
@@ -175,10 +173,10 @@ html {
 }
 
 .faq-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   color: white;
 }
 
@@ -197,14 +195,14 @@ html {
 
 .faq-question {
   width: 100%;
-  padding: 18px 24px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: none;
   border: none;
   color: white;
-  font-size: 17px;
+  font-size: 16px;
   text-align: left;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -226,10 +224,10 @@ html {
 }
 
 .faq-answer {
-  padding: 0 24px 18px;
+  padding: 0 20px 16px;
   color: #999;
   line-height: 1.6;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 /* Responsive adjustments */

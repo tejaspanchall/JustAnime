@@ -277,7 +277,7 @@ export default function Watch() {
         )}
       </Helmet>
       <div className="w-full min-h-screen bg-[#0a0a0a]">
-        <div className="w-full max-w-[1920px] mx-auto pt-16 pb-6 w-full max-[1200px]:pt-12">
+        <div className="w-full max-w-[1920px] mx-auto pt-24 pb-6 max-[1200px]:pt-16">
           <div className="grid grid-cols-[minmax(0,70%),minmax(0,30%)] gap-6 w-full h-full max-[1200px]:flex max-[1200px]:flex-col">
             {/* Left Column - Player, Controls, Servers */}
             <div className="flex flex-col w-full gap-6">
@@ -613,7 +613,11 @@ export default function Watch() {
               </div>
 
               {/* Related Anime Section */}
-              {animeInfo && animeInfo.related_data ? (
+              {animeInfoLoading ? (
+                <div className="mt-6">
+                  <SidecardLoader />
+                </div>
+              ) : animeInfo?.related_data?.length > 0 && (
                 <div className="bg-[#141414] rounded-lg p-4">
                   <h2 className="text-xl font-semibold mb-4 text-white">Related Anime</h2>
                   <Sidecard
@@ -621,15 +625,11 @@ export default function Watch() {
                     className="!mt-0"
                   />
                 </div>
-              ) : (
-                <div className="mt-6">
-                  <SidecardLoader />
-                </div>
               )}
             </div>
 
             {/* Mobile-only Related Section */}
-            {animeInfo && animeInfo.related_data && (
+            {!animeInfoLoading && animeInfo?.related_data?.length > 0 && (
               <div className="hidden max-[1200px]:block bg-[#141414] rounded-lg p-4">
                 <h2 className="text-xl font-semibold mb-4 text-white">Related Anime</h2>
                 <Sidecard

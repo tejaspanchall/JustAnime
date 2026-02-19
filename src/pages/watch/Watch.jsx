@@ -4,7 +4,6 @@ import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { useWatch } from "@/src/hooks/useWatch";
 import BouncingLoader from "@/src/components/ui/bouncingloader/Bouncingloader";
-import IframePlayer from "@/src/components/player/IframePlayer";
 import Episodelist from "@/src/components/episodelist/Episodelist";
 import website_name from "@/src/config/website";
 import Sidecard from "@/src/components/sidecard/Sidecard";
@@ -200,48 +199,45 @@ export default function Watch() {
               <div ref={playerRef} className="player w-full h-fit bg-black flex flex-col rounded-xl overflow-hidden shadow-2xl">
                 <div ref={videoContainerRef} className="w-full relative aspect-video bg-black">
                   {!buffering ? (
-                    ["hd-1", "hd-4"].includes(activeServerName.toLowerCase()) ? (
-                      <IframePlayer
-                        episodeId={episodeId}
-                        servertype={activeServerType}
-                        serverName={activeServerName}
-                        animeInfo={animeInfo}
-                        episodeNum={activeEpisodeNum}
-                        episodes={episodes}
-                        playNext={setEpisodeId}
-                        autoNext={autoNext}
-                      />
-                    ) : (
-                      <Player
-                        streamUrl={streamUrl}
-                        subtitles={subtitles}
-                        intro={intro}
-                        outro={outro}
-                        serverName={activeServerName.toLowerCase()}
-                        thumbnail={thumbnail}
-                        autoSkipIntro={autoSkipIntro}
-                        autoPlay={autoPlay}
-                        autoNext={autoNext}
-                        episodeId={episodeId}
-                        episodes={episodes}
-                        playNext={setEpisodeId}
-                        animeInfo={animeInfo}
-                        episodeNum={activeEpisodeNum}
-                        streamInfo={streamInfo}
-                      />
-                    )
+                    <Player
+                      streamUrl={streamUrl}
+                      subtitles={subtitles}
+                      intro={intro}
+                      outro={outro}
+                      activeServerName={activeServerName}
+                      thumbnail={thumbnail}
+                      autoSkipIntro={autoSkipIntro}
+                      autoPlay={autoPlay}
+                      autoNext={autoNext}
+                      episodeId={episodeId}
+                      episodes={episodes}
+                      playNext={setEpisodeId}
+                      animeInfo={animeInfo}
+                      episodeNum={activeEpisodeNum}
+                      streamInfo={streamInfo}
+                    />
                   ) : (
-                    <div className="absolute inset-0 flex justify-center items-center bg-black">
+                    <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
                       <BouncingLoader />
                     </div>
                   )}
-                  {!buffering && !activeServerType && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm pointer-events-none">
-                      <p className="text-center text-gray-300 font-medium p-4 max-w-sm">
-                        Streaming server seems to be down. Please try another server or reload the page.
-                      </p>
-                    </div>
-                  )}
+                  <p className="text-center underline font-medium text-[15px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                    {!buffering && !streamInfo ? (
+                      servers ? (
+                        <>
+                          Probably this server is down, try other servers
+                          <br />
+                          Either reload or try again after sometime
+                        </>
+                      ) : (
+                        <>
+                          Probably streaming server is down
+                          <br />
+                          Either reload or try again after sometime
+                        </>
+                      )
+                    ) : null}
+                  </p>
                 </div>
 
                 <div className="bg-[#121212]">

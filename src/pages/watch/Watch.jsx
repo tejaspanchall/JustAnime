@@ -83,7 +83,7 @@ export default function Watch() {
   } = useWatchControl();
 
   const videoContainerRef = useRef(null);
-  const controlsRef = useRef(null);
+  const playerRef = useRef(null);
   const episodesRef = useRef(null);
 
   // Sync URL with episodeId
@@ -116,20 +116,20 @@ export default function Watch() {
   // Height adjustment logic
   const adjustHeight = useCallback(() => {
     if (window.innerWidth > 1200) {
-      if (videoContainerRef.current && controlsRef.current && episodesRef.current) {
-        const totalHeight = videoContainerRef.current.offsetHeight + controlsRef.current.offsetHeight;
-        episodesRef.current.style.height = `${totalHeight}px`;
+      if (playerRef.current && episodesRef.current) {
+        episodesRef.current.style.height = 'auto';
+        episodesRef.current.style.maxHeight = `${playerRef.current.offsetHeight}px`;
       }
     } else if (episodesRef.current) {
       episodesRef.current.style.height = 'auto';
+      episodesRef.current.style.maxHeight = 'none';
     }
   }, []);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(adjustHeight);
 
-    if (videoContainerRef.current) resizeObserver.observe(videoContainerRef.current);
-    if (controlsRef.current) resizeObserver.observe(controlsRef.current);
+    if (playerRef.current) resizeObserver.observe(playerRef.current);
 
     window.addEventListener('resize', adjustHeight);
     adjustHeight();
@@ -193,11 +193,11 @@ export default function Watch() {
 
       <div className="w-full min-h-screen bg-[#0a0a0a]">
         <div className="w-full max-w-[1920px] mx-auto pt-20 pb-6 max-[1200px]:pt-16">
-          <div className="grid grid-cols-[1fr_350px] gap-6 w-full h-full max-[1200px]:flex max-[1200px]:flex-col px-4 lg:px-6">
+          <div className="grid grid-cols-[1fr_350px] items-start gap-6 w-full max-[1200px]:flex max-[1200px]:flex-col px-4 lg:px-6">
 
             {/* Left Column */}
             <div className="flex flex-col w-full gap-6">
-              <div className="player w-full h-fit bg-black flex flex-col rounded-xl overflow-hidden shadow-2xl">
+              <div ref={playerRef} className="player w-full h-fit bg-black flex flex-col rounded-xl overflow-hidden shadow-2xl">
                 <div ref={videoContainerRef} className="w-full relative aspect-video bg-black">
                   {!buffering ? (
                     ["hd-1", "hd-4"].includes(activeServerName.toLowerCase()) ? (
@@ -246,7 +246,7 @@ export default function Watch() {
 
                 <div className="bg-[#121212]">
                   {!buffering && (
-                    <div ref={controlsRef}>
+                    <div>
                       <Watchcontrols
                         autoPlay={autoPlay} setAutoPlay={setAutoPlay}
                         autoSkipIntro={autoSkipIntro} setAutoSkipIntro={setAutoSkipIntro}
@@ -365,9 +365,10 @@ export default function Watch() {
 
             {/* Right Column (Desktop Only) */}
             <div className="flex flex-col gap-6 max-[1200px]:hidden">
-              <div ref={episodesRef} className="episodes h-full bg-[#141414] rounded-xl overflow-hidden shadow-lg border border-white/5">
+              <div ref={episodesRef} className="episodes flex flex-col bg-[#141414] rounded-xl overflow-hidden shadow-lg border border-white/5">
                 {!episodes ? (
-                  <div className="h-full flex items-center justify-center"><BouncingLoader /></div>
+                  <div className="flex-1 flex items-center justify-center min-h-[400px]">
+                    <BouncingLoader /></div>
                 ) : (
                   <Episodelist
                     episodes={episodes}

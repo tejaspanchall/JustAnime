@@ -192,7 +192,7 @@ export default function Watch() {
 
       <div className="w-full min-h-screen bg-[#0a0a0a]">
         <div className="w-full max-w-[1920px] mx-auto pt-20 pb-6 max-[1200px]:pt-16">
-          <div className="grid grid-cols-[1fr_350px] items-start gap-6 w-full max-[1200px]:flex max-[1200px]:flex-col px-4 lg:px-6">
+          <div className="grid grid-cols-[1fr_350px] items-start gap-6 w-full max-[1200px]:flex max-[1200px]:flex-col lg:px-6">
 
             {/* Left Column */}
             <div className="flex flex-col w-full gap-6">

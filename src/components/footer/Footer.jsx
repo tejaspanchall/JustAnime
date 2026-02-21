@@ -5,7 +5,7 @@ import { FaDiscord, FaTelegram } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="w-full mt-16">
+    <footer className="w-full mt-auto">
       {/* Logo Section */}
       <div className="max-w-[1920px] mx-auto px-4">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
@@ -25,7 +25,7 @@ function Footer() {
                 <FaDiscord size={28} />
               </a>
               <a
-                href="https://tinyurl.com/JustAnimeZone"
+                href="https://t.me/JustAnimeZone"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/40 hover:text-[#26A5E4] transition-all hover:scale-110"

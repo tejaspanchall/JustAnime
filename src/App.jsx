@@ -37,43 +37,45 @@ function App() {
   return (
     <HelmetProvider>
       <HomeInfoProvider>
-        <div className="app-container px-4 lg:px-10">
-          <main className="content max-w-[2048px] mx-auto w-full">
+        <div className="app-container px-4 lg:px-10 flex flex-col min-h-screen">
+          <main className="content max-w-[2048px] mx-auto w-full flex-grow flex flex-col">
             {!isSplashScreen && <Navbar />}
-            <Routes>
-              <Route path="/" element={<SplashScreen />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/:id" element={<AnimeInfo />} />
-              <Route path="/watch/:id" element={<Watch />} />
-              <Route path="/random" element={<AnimeInfo random={true} />} />
-              <Route path="/404-not-found-page" element={<Error error="404" />} />
-              <Route path="/error-page" element={<Error />} />
-              <Route path="/terms-of-service" element={<Terms />} />
-              <Route path="/dmca" element={<DMCA />} />
-              <Route path="/contact" element={<Contact />} />
-              {/* Render category routes */}
-              {categoryRoutes.map((path) => (
-                <Route
-                  key={path}
-                  path={`/${path}`}
-                  element={
-                    <Category path={path} label={path.split("-").join(" ")} />
-                  }
-                />
-              ))}
-              {/* Render A to Z routes */}
-              {azRoute.map((path) => (
-                <Route
-                  key={path}
-                  path={`/${path}`}
-                  element={<AtoZ path={path} />}
-                />
-              ))}
-              <Route path="/producer/:id" element={<Producer />} />
-              <Route path="/search" element={<Search />} />
-              {/* Catch-all route for 404 */}
-              <Route path="*" element={<Error error="404" />} />
-            </Routes>
+            <div className="flex-grow">
+              <Routes>
+                <Route path="/" element={<SplashScreen />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/:id" element={<AnimeInfo />} />
+                <Route path="/watch/:id" element={<Watch />} />
+                <Route path="/random" element={<AnimeInfo random={true} />} />
+                <Route path="/404-not-found-page" element={<Error error="404" />} />
+                <Route path="/error-page" element={<Error />} />
+                <Route path="/terms-of-service" element={<Terms />} />
+                <Route path="/dmca" element={<DMCA />} />
+                <Route path="/contact" element={<Contact />} />
+                {/* Render category routes */}
+                {categoryRoutes.map((path) => (
+                  <Route
+                    key={path}
+                    path={`/${path}`}
+                    element={
+                      <Category path={path} label={path.split("-").join(" ")} />
+                    }
+                  />
+                ))}
+                {/* Render A to Z routes */}
+                {azRoute.map((path) => (
+                  <Route
+                    key={path}
+                    path={`/${path}`}
+                    element={<AtoZ path={path} />}
+                  />
+                ))}
+                <Route path="/producer/:id" element={<Producer />} />
+                <Route path="/search" element={<Search />} />
+                {/* Catch-all route for 404 */}
+                <Route path="*" element={<Error error="404" />} />
+              </Routes>
+            </div>
             {!isSplashScreen && <Footer />}
           </main>
           <Analytics />

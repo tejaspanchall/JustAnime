@@ -165,9 +165,8 @@ function Episodelist({
                           handleRangeSelect(item);
                           setActiveRange(item);
                         }}
-                        className={`hover:bg-[#3a3a3a] cursor-pointer transition-colors ${
-                          item === activeRange ? "bg-[#404040]" : ""
-                        }`}
+                        className={`hover:bg-[#3a3a3a] cursor-pointer transition-colors ${item === activeRange ? "bg-[#404040]" : ""
+                          }`}
                       >
                         <p className="font-medium text-[12px] p-2.5 flex justify-between items-center text-gray-300 hover:text-white max-[600px]:text-[11px] max-[600px]:p-2">
                           {item}
@@ -183,7 +182,7 @@ function Episodelist({
             </div>
           )}
         </div>
-        
+
         {totalEpisodes > 100 && (
           <div className="flex items-center min-w-[180px] max-[600px]:min-w-[120px]">
             <div className="w-full flex items-center gap-2 px-3 py-1.5 bg-[#2a2a2a] rounded-lg border border-[#3a3a3a] focus-within:border-gray-500 transition-colors max-[600px]:px-2 max-[600px]:py-1">
@@ -201,60 +200,18 @@ function Episodelist({
           </div>
         )}
       </div>
-      
+
       <div ref={listContainerRef} className="w-full flex-1 overflow-y-auto bg-[#1a1a1a] max-h-[calc(100vh-200px)] max-[1200px]:max-h-[400px]">
         <div
-          className={`${
-            totalEpisodes > 30
-              ? "p-4 grid gap-2 max-[600px]:p-2 max-[600px]:gap-1.5" + 
-                (totalEpisodes > 100 
-                  ? " grid-cols-5" 
-                  : " grid-cols-5 max-[1200px]:grid-cols-12 max-[860px]:grid-cols-10 max-[575px]:grid-cols-8 max-[478px]:grid-cols-6 max-[350px]:grid-cols-5")
+          className={`${totalEpisodes > 30
+              ? "p-4 grid grid-cols-5 gap-2 max-[600px]:p-2 max-[600px]:gap-1.5"
               : ""
-          }`}
+            }`}
         >
           {totalEpisodes > 30
             ? episodes
-                .slice(selectedRange[0] - 1, selectedRange[1])
-                .map((item, index) => {
-                  const episodeNumber = item?.id.match(/ep=(\d+)/)?.[1];
-                  const isActive =
-                    activeEpisodeId === episodeNumber ||
-                    currentEpisode === episodeNumber;
-                  const isSearched = searchedEpisode === item?.id;
-
-                  return (
-                    <div
-                      key={item?.id}
-                      ref={isActive ? activeEpisodeRef : null}
-                      className={`flex items-center justify-center rounded-lg h-[35px] text-[13px] font-medium cursor-pointer transition-all max-[600px]:h-[30px] max-[600px]:text-[12px] ${
-                        item?.filler
-                          ? isActive
-                            ? "bg-white text-black"
-                            : "bg-[#2a2a2a] text-gray-400"
-                          : ""
-                      } hover:bg-[#404040] 
-                          hover:text-white
-                       ${
-                         isActive
-                           ? "bg-white text-black ring-1 ring-white"
-                           : "bg-[#2a2a2a] text-gray-400"
-                       } ${isSearched ? "ring-2 ring-white" : ""}`}
-                      onClick={() => {
-                        if (episodeNumber) {
-                          onEpisodeClick(episodeNumber);
-                          setActiveEpisodeId(episodeNumber);
-                          setSearchedEpisode(null);
-                        }
-                      }}
-                    >
-                      <span className="transition-colors">
-                        {index + selectedRange[0]}
-                      </span>
-                    </div>
-                  );
-                })
-            : episodes?.map((item, index) => {
+              .slice(selectedRange[0] - 1, selectedRange[1])
+              .map((item, index) => {
                 const episodeNumber = item?.id.match(/ep=(\d+)/)?.[1];
                 const isActive =
                   activeEpisodeId === episodeNumber ||
@@ -265,13 +222,17 @@ function Episodelist({
                   <div
                     key={item?.id}
                     ref={isActive ? activeEpisodeRef : null}
-                    className={`w-full px-4 py-2.5 flex items-center justify-start gap-x-4 cursor-pointer transition-all max-[600px]:px-3 max-[600px]:py-2 max-[600px]:gap-x-3 ${
-                      (index + 1) % 2 && !isActive
-                        ? "bg-[#202020]"
-                        : "bg-[#1a1a1a]"
-                    } hover:bg-[#2a2a2a] ${
-                      isActive ? "bg-[#2a2a2a]" : ""
-                    } ${isSearched ? "ring-1 ring-white" : ""}`}
+                    className={`flex items-center justify-center rounded-lg h-[35px] text-[13px] font-medium cursor-pointer transition-all max-[600px]:h-[30px] max-[600px]:text-[12px] ${item?.filler
+                        ? isActive
+                          ? "bg-white text-black"
+                          : "bg-[#2a2a2a] text-gray-400"
+                        : ""
+                      } hover:bg-[#404040] 
+                          hover:text-white
+                       ${isActive
+                        ? "bg-white text-black ring-1 ring-white"
+                        : "bg-[#2a2a2a] text-gray-400"
+                      } ${isSearched ? "ring-2 ring-white" : ""}`}
                     onClick={() => {
                       if (episodeNumber) {
                         onEpisodeClick(episodeNumber);
@@ -280,25 +241,54 @@ function Episodelist({
                       }
                     }}
                   >
-                    <p className={`text-[14px] font-medium max-[600px]:text-[13px] ${isActive ? "text-white" : "text-gray-400"}`}>
-                      {index + 1}
-                    </p>
-                    <div className="w-full flex items-center justify-between gap-x-[5px]">
-                      <h1 className={`line-clamp-1 text-[14px] transition-colors max-[600px]:text-[13px] ${
-                        isActive ? "text-white font-medium" : "text-gray-400 font-normal"
-                      }`}>
-                        {language === "EN" ? item?.title : item?.japanese_title}
-                      </h1>
-                      {isActive && (
-                        <FontAwesomeIcon
-                          icon={faCirclePlay}
-                          className="w-[18px] h-[18px] text-white max-[600px]:w-[16px] max-[600px]:h-[16px]"
-                        />
-                      )}
-                    </div>
+                    <span className="transition-colors">
+                      {index + selectedRange[0]}
+                    </span>
                   </div>
                 );
-              })}
+              })
+            : episodes?.map((item, index) => {
+              const episodeNumber = item?.id.match(/ep=(\d+)/)?.[1];
+              const isActive =
+                activeEpisodeId === episodeNumber ||
+                currentEpisode === episodeNumber;
+              const isSearched = searchedEpisode === item?.id;
+
+              return (
+                <div
+                  key={item?.id}
+                  ref={isActive ? activeEpisodeRef : null}
+                  className={`w-full px-4 py-2.5 flex items-center justify-start gap-x-4 cursor-pointer transition-all max-[600px]:px-3 max-[600px]:py-2 max-[600px]:gap-x-3 ${(index + 1) % 2 && !isActive
+                      ? "bg-[#202020]"
+                      : "bg-[#1a1a1a]"
+                    } hover:bg-[#2a2a2a] ${isActive ? "bg-[#2a2a2a]" : ""
+                    } ${isSearched ? "ring-1 ring-white" : ""}`}
+                  onClick={() => {
+                    if (episodeNumber) {
+                      onEpisodeClick(episodeNumber);
+                      setActiveEpisodeId(episodeNumber);
+                      setSearchedEpisode(null);
+                    }
+                  }}
+                >
+                  <p className={`text-[14px] font-medium max-[600px]:text-[13px] ${isActive ? "text-white" : "text-gray-400"}`}>
+                    {index + 1}
+                  </p>
+                  <div className="w-full flex items-center justify-between gap-x-[5px]">
+                    <h1 className={`line-clamp-1 text-[14px] transition-colors max-[600px]:text-[13px] ${isActive ? "text-white font-medium" : "text-gray-400 font-normal"
+                      }`}>
+                      {language === "EN" ? item?.title : item?.japanese_title}
+                    </h1>
+                    {isActive && (
+                      <FontAwesomeIcon
+                        icon={faCirclePlay}
+                        className="w-[18px] h-[18px] text-white max-[600px]:w-[16px] max-[600px]:h-[16px]"
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>

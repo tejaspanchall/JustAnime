@@ -34,14 +34,12 @@ html {
 
 @media (max-width: 768px) {
   .splash-container {
-    background-size: auto 100vh;
     background-position: center center;
   }
 }
 
 @media (max-width: 480px) {
   .splash-container {
-    background-size: auto 100%;
     padding: 0 15px;
   }
 }

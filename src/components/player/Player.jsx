@@ -640,7 +640,7 @@ export default function Player({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [streamUrl, subtitles, intro, outro]);
+  }, [streamUrl, subtitles, intro, outro, activeServerName]);
 
   return <div ref={artRef} className="w-full h-full" />;
 }

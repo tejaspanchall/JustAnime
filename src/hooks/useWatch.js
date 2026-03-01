@@ -136,27 +136,7 @@ export const useWatch = (animeId, initialEpisodeId) => {
 
         let serversList = [...filteredServers];
 
-        if (serversList.some((s) => s.type === "sub")) {
-          if (!serversList.some((s) => s.serverName === "HD-4" && s.type === "sub")) {
-            serversList.push({
-              type: "sub",
-              data_id: "69696968",
-              server_id: "41",
-              serverName: "HD-4",
-            });
-          }
-        }
 
-        if (serversList.some((s) => s.type === "dub")) {
-          if (!serversList.some((s) => s.serverName === "HD-4" && s.type === "dub")) {
-            serversList.push({
-              type: "dub",
-              data_id: "96969696",
-              server_id: "42",
-              serverName: "HD-4",
-            });
-          }
-        }
 
         const savedServerName = localStorage.getItem("server_name");
         const savedServerType = localStorage.getItem("server_type");
@@ -198,6 +178,15 @@ export const useWatch = (animeId, initialEpisodeId) => {
       isServerFetchInProgress.current = false;
     };
   }, [episodeId, episodes]);
+
+  useEffect(() => {
+    if (!servers || !activeServerId) return;
+    const activeServer = servers.find((s) => s.data_id === activeServerId);
+    if (activeServer) {
+      setActiveServerName(activeServer.serverName);
+      setActiveServerType(activeServer.type);
+    }
+  }, [activeServerId, servers]);
 
   // Fetch stream info only when episodeId, activeServerId, and servers are ready
   useEffect(() => {

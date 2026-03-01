@@ -68,7 +68,7 @@ export default function Player({
   const artRef = useRef(null);
   const leftAtRef = useRef(0);
   const boundKeydownRef = useRef(null);
-  const proxy = import.meta.env.VITE_PROXY_URL;
+  const proxy = import.meta.env.VITE_M3U8_PROXY_URL;
   const m3u8proxy = import.meta.env.VITE_M3U8_PROXY_URL?.split(",") || [];
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(
     episodes?.findIndex((episode) => episode.id.match(/ep=(\d+)/)?.[1] === episodeId)
@@ -253,7 +253,7 @@ export default function Player({
   useEffect(() => {
     if (!streamUrl || !artRef.current) return;
 
-    const iframeUrl = streamInfo?.streamingLink?.iframe;
+    const iframeUrl = streamInfo?.streamingLink?.[0]?.iframe;
     const headers = {
       referer: iframeUrl ? new URL(iframeUrl).origin + "/" : window.location.origin + "/",
     };
@@ -491,12 +491,7 @@ export default function Player({
       }, 2000);
 
       const subs = (subtitles || []).map((s) => ({ ...s }));
-
-      for (const sub of subs) {
-        const encodedUrl = encodeURIComponent(sub.file);
-        const encodedHeaders = encodeURIComponent(JSON.stringify(headers));
-        sub.file = `${proxy}${encodedUrl}&headers=${encodedHeaders}`;
-      }
+      // VTT subtitle files from HiAnime CDNs are public, no proxy needed
 
       const defaultSubtitle = subs?.find((sub) => sub.label.toLowerCase() === "english");
       if (defaultSubtitle) {
@@ -547,7 +542,7 @@ export default function Player({
       if (thumbnail) {
         art.plugins.add(
           artplayerPluginVttThumbnail({
-            vtt: `${proxy}${thumbnail}`,
+            vtt: thumbnail,
           })
         );
       }
@@ -595,7 +590,7 @@ export default function Player({
             ...subs.map((sub) => ({
               default: sub.label.toLowerCase() === "english" && sub === defaultEnglishSub,
               html: sub.label,
-              url: sub.file,
+              url: sub.file, // direct CDN URL, no proxy needed
             })),
           ],
           onSelect: (item) => {

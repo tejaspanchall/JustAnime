@@ -32,7 +32,7 @@ function Contact() {
             <span className="text-white/60 group-hover:text-white">Join Discord Server</span>
           </a>
           <a
-            href="https://github.com/tejaspanchall/JustAnime"
+            href="https://github.com/JustAnimeCore/JustAnime"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 px-4 py-3 bg-white/5 hover:bg-white/10 rounded-lg transition-colors group"

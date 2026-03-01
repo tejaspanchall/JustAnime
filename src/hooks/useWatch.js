@@ -229,15 +229,15 @@ export const useWatch = (animeId, initialEpisodeId) => {
             server.type.toLowerCase()
           );
           setStreamInfo(data);
-          setStreamUrl(data?.streamingLink?.link?.file || null);
-          setIntro(data?.streamingLink?.intro || null);
-          setOutro(data?.streamingLink?.outro || null);
+          setStreamUrl(data?.streamingLink?.[0]?.link || null);
+          setIntro(data?.intro || null);
+          setOutro(data?.outro || null);
           const subtitles =
-            data?.streamingLink?.tracks
+            data?.tracks
               ?.filter((track) => track.kind === "captions")
-              .map(({ file, label }) => ({ file, label })) || [];
+              .map(({ file, label, default: isDefault }) => ({ file, label, default: isDefault })) || [];
           setSubtitles(subtitles);
-          const thumbnailTrack = data?.streamingLink?.tracks?.find(
+          const thumbnailTrack = data?.tracks?.find(
             (track) => track.kind === "thumbnails" && track.file
           );
           if (thumbnailTrack) setThumbnail(thumbnailTrack.file);

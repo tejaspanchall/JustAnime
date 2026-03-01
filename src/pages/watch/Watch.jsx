@@ -352,28 +352,6 @@ export default function Watch() {
                 </div>
               </div>
 
-              {/* Seasons (Mobile only) */}
-              {seasons?.length > 0 && (
-                <div className="hidden max-[1200px]:block w-full bg-[#141414] rounded-xl p-4 shadow-lg border border-white/5">
-                  <h2 className="text-lg font-bold mb-4 text-white">More Seasons</h2>
-                  <div className="grid grid-cols-2 gap-3">
-                    {seasons.map((season, idx) => (
-                      <Link
-                        to={`/${season.id}`}
-                        key={idx}
-                        className={`relative aspect-[3/1] rounded-lg overflow-hidden group border-2 transition-all ${animeId === String(season.id) ? "border-white/40 shadow-lg" : "border-transparent"}`}
-                      >
-                        <img src={season.season_poster} alt={season.season} className={`w-full h-full object-cover scale-150 transition-opacity ${animeId === String(season.id) ? "opacity-60" : "opacity-40 group-hover:opacity-60"}`} />
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent z-10" />
-                        <div className="absolute inset-0 flex items-center justify-center z-20 px-2">
-                          <p className="text-xs font-bold text-white text-center line-clamp-2">{season.season}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Related Anime (Mobile only) */}
               {!animeInfoLoading && animeInfo?.related_data?.length > 0 && (
                 <div className="hidden max-[1200px]:block w-full bg-[#141414] rounded-xl p-4 shadow-lg border border-white/5">
@@ -406,9 +384,38 @@ export default function Watch() {
                 </div>
               )}
             </div>
-
-
           </div>
+        </div>
+
+        {/* Sections */}
+        <div className="container mx-auto space-y-8 pb-12 lg:px-6">
+          {seasons?.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6 px-1 text-white">More Seasons</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {seasons.map((season, index) => (
+                  <Link
+                    to={`/${season.id}`}
+                    key={index}
+                    className={`relative w-full aspect-[3/1] rounded-lg overflow-hidden group border-2 transition-all ${animeId === String(season.id) ? "border-white/40 shadow-lg" : "border-transparent"}`}
+                  >
+                    <img src={season.season_poster} alt={season.season} className={`w-full h-full object-cover scale-150 transition-opacity ${animeId === String(season.id) ? "opacity-50" : "opacity-40 group-hover:opacity-60"}`} />
+                    <div
+                      className="absolute inset-0 z-10"
+                      style={{
+                        backgroundImage: `url('data:image/svg+xml,<svg width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="1.5" cy="1.5" r="0.5" fill="white" fill-opacity="0.25"/></svg>')`,
+                        backgroundSize: '3px 3px'
+                      }}
+                    />
+                    <div className="absolute inset-0 z-20 bg-gradient-to-r from-black/60 to-transparent" />
+                    <div className="absolute inset-0 z-30 flex items-center justify-center">
+                      <p className="text-sm sm:text-base font-bold text-center px-4 text-white">{season.season}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
